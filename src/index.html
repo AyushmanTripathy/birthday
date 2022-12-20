@@ -1,0 +1,118 @@
+<div id="cover">
+  <h1>Please Wait...</h1>
+</div>
+
+<main>
+  <import path="./images.html" />
+</main>
+<div class="con">
+  <h3>A Happy Birthday to</h3>
+  <div class="row">
+    <h1>My</h1>
+    <h1 id="text"></h1>
+    <h1>Sister</h1>
+  </div>
+</div>
+
+<style>
+  #cover {
+    @include fullscreen;
+    @include fixed(0, 0);
+    @include flex(column);
+    @include flex-center;
+    background: #000;
+    z-index: 1;
+    text-align: center;
+    transition: opacity 0.3s;
+  }
+  main {
+    @include fullscreen;
+    @include absolute;
+    @include flex-center;
+
+    text-align: center;
+    display: flex;
+    background: #000;
+  }
+  h1 {
+    @include cursive;
+    color: #7536a5;
+    transition: all 1s;
+  }
+  h3 {
+    @include sans;
+  }
+  .con {
+    @include fixed(0, 0);
+    @include fullscreen;
+    @include flex(column);
+    @include flex-center;
+    background: transparent;
+    color: $sec;
+  }
+  .row {
+    display: inline-flex;
+    column-gap: 10px;
+  }
+</style>
+
+<script>
+  const delay = 1500;
+  let order = [];
+  const names = [
+    "Smiling",
+    "Cute",
+    "Majestic",
+    "Lovely",
+    "Hard Working",
+    "Caring",
+    "Sophisticated",
+    "Gorgeous",
+    "Responsible",
+    "Stunning",
+    "Breathtaking",
+    "Elegant",
+    "Graceful",
+  ];
+  const imgs = document.querySelectorAll(".imgs");
+  const text = document.querySelector("#text");
+  const random = (min, max) =>
+    Math.floor(Math.random() * (max - min + 1) + min);
+
+  window.onload = () => {
+    document.querySelector("#cover").style.opacity = "0";
+    show();
+    nameLoop(0);
+  };
+  function nameLoop(i) {
+    text.innerHTML = names[i];
+    window.setTimeout(() => {
+      i++;
+      nameLoop(i == names.length ? 0 : i);
+    }, delay * 2);
+  }
+  function shuffle(arr) {
+    const loop = () => {
+      const num = random(0, imgs.length - 1);
+      if (!arr.includes(num)) return num;
+      else return loop();
+    };
+    for (let i = 0; i < imgs.length; i++) arr[i] = loop();
+    return arr;
+  }
+  function show() {
+    if (!order.length) order = shuffle(order);
+    window.setTimeout(() => {
+      const n = order.pop();
+      imgs[n].style.opacity = "100";
+      hide(n);
+    }, delay);
+  }
+
+  function hide(n) {
+    window.setTimeout(() => {
+      imgs[n].style.opacity = "0";
+      show();
+    }, delay);
+  }
+</script>

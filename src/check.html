@@ -1,0 +1,25 @@
+<main>
+  <h1>Cannot display on a mobile device</h1>
+</main>
+
+<style>
+  main {
+    @include absolute;
+    @include fullscreen;
+    @include flex(column);
+    @include flex-center;
+    background: $pri;
+    text-align:center;
+  }
+  h1 {
+    @include sans;
+    color: #000;
+    display:none;
+  }
+</style>
+
+<script>
+  const regexp = /android|iphone|kindle|ipad/i;
+  if (!regexp.test(navigator.userAgent)) window.location.href = "/main.html"
+  else document.querySelector("h1").style.display = "block";
+</script>
